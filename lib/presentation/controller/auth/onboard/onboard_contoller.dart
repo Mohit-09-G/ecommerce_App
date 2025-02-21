@@ -35,6 +35,6 @@ class OnboardContoller extends GetxController {
   }
 
   void completeOnboard() {
-    Get.offAllNamed(AppRoutes.helo);
+    Get.offAllNamed(AppRoutes.signInScreen);
   }
 }
