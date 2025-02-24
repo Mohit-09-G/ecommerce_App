@@ -1,6 +1,6 @@
 import 'package:get/route_manager.dart';
 import 'package:third_app/binding/auth/onboard_binding.dart';
-import 'package:third_app/binding/auth/signIn_binding.dart';
+import 'package:third_app/binding/auth/sign_in_binding.dart';
 import 'package:third_app/binding/auth/splash_binding.dart';
 import 'package:third_app/config/app_route.dart';
 import 'package:third_app/presentation/screens/auth/onboard/onboard_page.dart';
