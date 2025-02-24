@@ -1,9 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'package:third_app/config/app_color.dart';
 import 'package:third_app/config/app_string.dart';
-import 'package:third_app/config/validators.dart';
 import 'package:third_app/presentation/controller/auth/sighn_in/sighn_in_controller.dart';
 import 'package:third_app/presentation/screens/auth/commonwidget/squarebutton.dart';
 import 'package:third_app/presentation/screens/auth/sighin/widgets/custom_text_field.dart';
@@ -97,7 +96,9 @@ class _SighnInScreenState extends State<SighnInScreen> {
                                 height: 55,
                                 buttontext: "Login",
                                 ontap: () {
-                                  print("kk");
+                                  if (kDebugMode) {
+                                    print("kk");
+                                  }
                                 }),
                           )
                         ],

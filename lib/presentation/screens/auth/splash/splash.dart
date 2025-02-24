@@ -11,7 +11,6 @@ class _SplashScreenState extends State<SplashScreen> {
   //SplashContoller splashContoller = Get.find();
   @override
   void initState() {
-    // TODO: implement initState
     //splashContoller.onInit();
     super.initState();
   }
