@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:third_app/config/app_color.dart';
 
 import 'package:third_app/presentation/controller/auth/home/home_screen_controller.dart';
 
@@ -11,12 +12,11 @@ class HomeScreen extends StatelessWidget {
     HomeScreenController controller = Get.find<HomeScreenController>();
 
     return Scaffold(
+      backgroundColor: AppColor.appblackColor,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Obx(() {
-          // Use the observable list to track changes to the data
           if (controller.characterList.isEmpty) {
-            // Show loading indicator while data is being fetched
             return const Center(child: CircularProgressIndicator());
           } else {
             return GridView.builder(
@@ -38,7 +38,6 @@ class HomeScreen extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      // Display the character's image
                       ClipRRect(
                         borderRadius: BorderRadius.circular(10),
                         child: Image.network(
@@ -49,13 +48,11 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      // Display the character's name
                       Text(
                         character.name,
                         textAlign: TextAlign.center,
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      // Display the character's species
                       Text(
                         character.species,
                         style: const TextStyle(color: Colors.white),
