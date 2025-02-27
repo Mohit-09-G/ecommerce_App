@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:third_app/config/app_color.dart';
@@ -58,6 +57,10 @@ class _SighnInScreenState extends State<SighnInScreen> {
                       child: Column(
                         children: [
                           CustomTextField(
+                              prefixIcon: Icon(
+                                Icons.person,
+                                color: AppColor.boxOutlineColor,
+                              ),
                               obscureText: false,
                               controller: controller.emailController,
                               label: AppText.emailLabel,
@@ -70,6 +73,10 @@ class _SighnInScreenState extends State<SighnInScreen> {
                           ),
                           Obx(
                             () => CustomTextField(
+                                prefixIcon: Icon(
+                                  Icons.lock,
+                                  color: AppColor.boxOutlineColor,
+                                ),
                                 suffixIcon: IconButton(
                                     onPressed: () {
                                       controller.togglePasswordVisibility();
@@ -88,6 +95,26 @@ class _SighnInScreenState extends State<SighnInScreen> {
                                 errorText: controller.passwordError),
                           ),
                           SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  controller.navigateToForget();
+                                },
+                                child: Text(
+                                  "Forgot Password?",
+                                  style: TextStyle(
+                                      color: AppColor.appredColor,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400),
+                                ),
+                              )
+                            ],
+                          ),
+                          SizedBox(
                             height: 15,
                           ),
                           Obx(
@@ -96,10 +123,48 @@ class _SighnInScreenState extends State<SighnInScreen> {
                                 height: 55,
                                 buttontext: "Login",
                                 ontap: () {
-                                  if (kDebugMode) {
-                                    print("kk");
+                                  if (controller.isFormValid.value) {
+                                    controller.signInWithEmailAndPassword(
+                                      controller.emailController.text.trim(),
+                                      controller.passwordController.text,
+                                    );
+                                  } else {
+                                    Get.snackbar('Validation Error',
+                                        'Please fill in all required fields correctly');
                                   }
                                 }),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                "Create An Account",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColor.appblackColor),
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  controller.navigateToSignUp();
+                                },
+                                child: Text(
+                                  "Sign Up",
+                                  style: TextStyle(
+                                    decorationColor: AppColor.appredColor,
+                                    decoration: TextDecoration.underline,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColor.appredColor,
+                                  ),
+                                ),
+                              )
+                            ],
                           )
                         ],
                       ),

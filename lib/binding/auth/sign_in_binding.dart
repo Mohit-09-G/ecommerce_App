@@ -5,8 +5,8 @@ import 'package:third_app/presentation/controller/auth/sighn_in/sighn_in_control
 class SigninBinding extends Bindings {
   @override
   void dependencies() {
-    // Get.lazyPut<SighnInController>(() => getIt<SighnInController>());
+    Get.lazyPut<SighnInController>(() => getIt<SighnInController>());
 
-    Get.put<SighnInController>(getIt<SighnInController>());
+    // Get.put<SighnInController>(getIt<SighnInController>());
   }
 }

@@ -9,6 +9,7 @@ class CustomTextField extends StatelessWidget {
   final bool obscureText;
   final TextInputType? keyboardType;
   final Widget? suffixIcon;
+  final Widget? prefixIcon;
 
   final Function(String) onChanged;
   final RxString errorText;
@@ -21,7 +22,8 @@ class CustomTextField extends StatelessWidget {
       this.keyboardType,
       this.suffixIcon,
       required this.onChanged,
-      required this.errorText});
+      required this.errorText,
+      this.prefixIcon});
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +38,7 @@ class CustomTextField extends StatelessWidget {
           keyboardType: keyboardType,
           decoration: InputDecoration(
             suffixIcon: suffixIcon,
-            prefixIcon: Icon(
-              Icons.person,
-              color: Color(0xFF868889),
-            ),
+            prefixIcon: prefixIcon,
             hintText: label,
             fillColor: AppColor.boxFilcolor,
             filled: true,
