@@ -56,14 +56,9 @@ class HomeScreenController extends GetxController {
       isDetailLoading.value = true;
       final singleResponse =
           await _dio.get('https://rickandmortyapi.com/api/character/$id');
-<<<<<<< HEAD
       if (singleResponse.statusCode == 200) {
         characterById.value =
             SingleCharachterModel.fromJson(singleResponse.data);
-=======
-      if (singleRespose.statusCode == 200) {
-        // Result characterdataById = Result.fromJson(singleRespose.data);
->>>>>>> ba5ba7d8d0d279c997a1ad0c5f592d65c64d96e0
       }
     } catch (e) {
       error.value = 'Error fetching characters: $e';

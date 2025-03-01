@@ -8,6 +8,7 @@ import 'package:third_app/binding/auth/sign_up_binding.dart';
 import 'package:third_app/binding/auth/splash_binding.dart';
 import 'package:third_app/config/app_route.dart';
 import 'package:third_app/presentation/screens/auth/displaypage/display_screen.dart';
+import 'package:third_app/presentation/screens/auth/displaypage/widgets/displaypage.dart';
 
 import 'package:third_app/presentation/screens/auth/forgetpass/forgetpassword_screen.dart';
 import 'package:third_app/presentation/screens/auth/home/home_screen.dart';
@@ -46,7 +47,7 @@ class AppPages {
         binding: HomeScreenBinding()),
     GetPage(
       name: AppRoutes.displayScreen,
-      page: () => DisplayScreen(),
+      page: () => Displaypage(),
     )
   ];
 }

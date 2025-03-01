@@ -13,10 +13,10 @@ class DisplayScreen extends StatelessWidget {
       () {
         return homeScreenController.isDetailLoading.value == true
             ? const Center(child: CircularProgressIndicator())
-            : Card(
-                elevation: 5,
-                child: Padding(
-                  padding: const EdgeInsets.all(5.0),
+            : Center(
+                child: Card(
+                  color: Colors.grey,
+                  elevation: 5,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -29,36 +29,47 @@ class DisplayScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(height: 20),
+                      SizedBox(height: 10),
                       Text(
-                        "Name: Rick Sanchez",
+                        "Name: ${homeScreenController.characterById.value.name}",
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w600),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white),
                       ),
-                      SizedBox(height: 8),
+                      SizedBox(height: 5),
                       Text(
-                        "Gender: Male",
+                        "Gender: ${homeScreenController.characterById.value.gender.name}",
                         style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w300),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w300,
+                            color: Colors.white),
                       ),
-                      SizedBox(height: 8),
+                      SizedBox(height: 5),
                       Text(
-                        "Species: Human",
+                        "Species: ${homeScreenController.characterById.value.species.name}",
                         style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w300),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w300,
+                            color: Colors.white),
                       ),
-                      SizedBox(height: 8),
+                      SizedBox(height: 5),
                       Text(
-                        "Status: Alive",
+                        "Status: ${homeScreenController.characterById.value.status.name}",
                         style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w300),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w300,
+                            color: Colors.white),
                       ),
-                      SizedBox(height: 8),
+                      SizedBox(height: 5),
                       Text(
-                        "Episodes: 15",
+                        "Episodes: ${homeScreenController.characterById.value.episode.length.toString()}",
                         style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w300),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w300,
+                            color: Colors.white),
                       ),
+                      SizedBox(height: 5),
                     ],
                   ),
                 ),
