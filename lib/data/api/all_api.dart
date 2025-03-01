@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:third_app/config/rick_api.dart';
 
 class AllApi extends RickAndMortyApi {
@@ -11,8 +12,10 @@ class AllApi extends RickAndMortyApi {
       return response.data;
     } catch (e) {
       // Handle errors
-      print('Error fetching characters: $e');
-      throw e;
+      if (kDebugMode) {
+        print('Error fetching characters: $e');
+      }
+      rethrow;
     }
   }
 }

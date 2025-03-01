@@ -1,4 +1,5 @@
 import 'package:get/route_manager.dart';
+
 import 'package:third_app/binding/auth/forgetpassword_binding.dart';
 import 'package:third_app/binding/auth/home_screen_binding.dart';
 import 'package:third_app/binding/auth/onboard_binding.dart';
@@ -6,6 +7,8 @@ import 'package:third_app/binding/auth/sign_in_binding.dart';
 import 'package:third_app/binding/auth/sign_up_binding.dart';
 import 'package:third_app/binding/auth/splash_binding.dart';
 import 'package:third_app/config/app_route.dart';
+import 'package:third_app/presentation/screens/auth/displaypage/display_screen.dart';
+
 import 'package:third_app/presentation/screens/auth/forgetpass/forgetpassword_screen.dart';
 import 'package:third_app/presentation/screens/auth/home/home_screen.dart';
 import 'package:third_app/presentation/screens/auth/onboard/onboard_page.dart';
@@ -40,6 +43,10 @@ class AppPages {
     GetPage(
         name: AppRoutes.homeScreen,
         page: () => HomeScreen(),
-        binding: HomeScreenBinding())
+        binding: HomeScreenBinding()),
+    GetPage(
+      name: AppRoutes.displayScreen,
+      page: () => DisplayScreen(),
+    )
   ];
 }

@@ -1,12 +1,29 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+
 import 'package:third_app/data/model/charachter_model.dart';
+import 'package:third_app/data/model/single_charachter_model.dart';
 
 class HomeScreenController extends GetxController {
-  var characterList = <Result>[].obs;
-  var characterbyIdList = <Result>{}.obs;
-  var isLoading = true.obs;
-  var error = ''.obs;
+  RxList<Result> characterList = <Result>[].obs;
+  Rx<SingleCharachterModel> characterById = Rx<SingleCharachterModel>(
+      SingleCharachterModel(
+          id: 0,
+          name: '',
+          status: Status.UNKNOWN,
+          species: Species.HUMAN,
+          type: '',
+          gender: Gender.UNKNOWN,
+          origin: Location(name: "", url: ""),
+          location: Location(name: "", url: ""),
+          image: '',
+          episode: [],
+          url: '',
+          created: DateTime.now()));
+  RxBool isLoading = true.obs;
+  RxBool isDetailLoading = true.obs;
+  RxString error = ''.obs;
 
   final Dio _dio = Dio();
 
@@ -19,14 +36,15 @@ class HomeScreenController extends GetxController {
       if (response.statusCode == 200) {
         Character characterData = Character.fromJson(response.data);
         characterList.value = characterData.results;
-        print(characterList);
       } else {
         error.value = 'Failed to load characters';
         throw Exception('Failed to load characters');
       }
     } catch (e) {
       error.value = 'Error fetching characters: $e';
-      print('Error fetching characters: $e');
+      if (kDebugMode) {
+        print('Error fetching characters: $e');
+      }
       throw Exception('Failed to fetch characters');
     } finally {
       isLoading.value = false;
@@ -35,18 +53,21 @@ class HomeScreenController extends GetxController {
 
   Future<void> fetchCharacterbyId(int id) async {
     try {
-      isLoading.value = true;
-      final singleRespose =
+      isDetailLoading.value = true;
+      final singleResponse =
           await _dio.get('https://rickandmortyapi.com/api/character/$id');
-      if (singleRespose.statusCode == 200) {
-        Result characterdataById = Result.fromJson(singleRespose.data);
+      if (singleResponse.statusCode == 200) {
+        characterById.value =
+            SingleCharachterModel.fromJson(singleResponse.data);
       }
     } catch (e) {
       error.value = 'Error fetching characters: $e';
-      print('Error fetching characters: $e');
+      if (kDebugMode) {
+        print('Error fetching characters: $e');
+      }
       throw Exception('Failed to fetch characters');
     } finally {
-      isLoading.value = false;
+      isDetailLoading.value = false;
     }
   }
 

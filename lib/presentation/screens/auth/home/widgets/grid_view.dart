@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:third_app/config/app_color.dart';
+import 'package:third_app/config/app_route.dart';
 import 'package:third_app/data/model/charachter_model.dart';
 import 'package:third_app/presentation/controller/auth/home/home_screen_controller.dart';
 
@@ -29,6 +30,10 @@ class CharacterGridView extends StatelessWidget {
         return GestureDetector(
           onTap: () {
             controller.fetchCharacterbyId(character.id);
+
+            Get.toNamed(
+              AppRoutes.displayScreen,
+            );
           },
           child: Container(
             decoration: BoxDecoration(
