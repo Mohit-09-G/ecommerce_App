@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 
 import 'package:get/route_manager.dart';
@@ -12,6 +13,8 @@ class SplashContoller extends GetxController {
 
   void _navigationNext() async {
     await Future.delayed(Duration(seconds: 3));
-    Get.offNamed(AppRoutes.onBoardScreen);
+    FirebaseAuth.instance.currentUser != null
+        ? Get.offNamed(AppRoutes.homeScreen)
+        : Get.offNamed(AppRoutes.onBoardScreen);
   }
 }
