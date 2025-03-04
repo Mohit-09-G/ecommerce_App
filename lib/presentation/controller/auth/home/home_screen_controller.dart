@@ -1,12 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:third_app/config/app_route.dart';
 
 import 'package:third_app/data/model/charachter_model.dart';
 import 'package:third_app/data/model/single_charachter_model.dart';
 
 class HomeScreenController extends GetxController {
   RxList<Result> characterList = <Result>[].obs;
+
   Rx<SingleCharachterModel> characterById = Rx<SingleCharachterModel>(
       SingleCharachterModel(
           id: 0,
@@ -21,6 +23,10 @@ class HomeScreenController extends GetxController {
           episode: [],
           url: '',
           created: DateTime.now()));
+
+  RxList<SingleCharachterModel> characterListOfCart =
+      <SingleCharachterModel>[].obs;
+  Map<int, List<SingleCharachterModel>> mapByID = {};
   RxBool isLoading = true.obs;
   RxBool isDetailLoading = true.obs;
   RxString error = ''.obs;
@@ -71,9 +77,60 @@ class HomeScreenController extends GetxController {
     }
   }
 
+  // void addtoCart(Rx<SingleCharachterModel> characterById) {
+  //   characterListOfCart.add(characterById.value);
+  //   print(characterListOfCart.value[0].id);
+
+  //   for (int i = 0; i < characterListOfCart.value.length; i++) {
+  //     SingleCharachterModel character = characterListOfCart.value[i];
+  //     mapByID[character.id] = character;
+  //     print(mapByID);
+  //   }
+  // }
+
+  void addtoCart(Rx<SingleCharachterModel> characterById) {
+    SingleCharachterModel character = characterById.value;
+
+    if (mapByID.containsKey(character.id)) {
+      mapByID[character.id]!.add(character);
+    } else {
+      mapByID[character.id] = [character];
+    }
+
+    characterListOfCart.add(character);
+
+    print(mapByID);
+
+    mapByID.forEach((key, value) {
+      print("Length of the list for key '$key': ${value.length}");
+    });
+  }
+
+  void removetoCart(Rx<SingleCharachterModel> characterById) {
+    SingleCharachterModel charachter = characterById.value;
+    if (mapByID.containsKey(charachter.id)) {
+      mapByID[charachter.id]!.remove(charachter);
+    }
+
+    characterListOfCart.remove(charachter);
+    print(mapByID);
+
+    mapByID.forEach((key, value) {
+      print("Length of the list for key '$key': ${value.length}");
+    });
+  }
+
   @override
   void onInit() {
     super.onInit();
     fetchCharacters();
+  }
+
+  void navigateToProfile() {
+    Get.toNamed(AppRoutes.profileScreen);
+  }
+
+  void navigateToCheckout() {
+    Get.toNamed(AppRoutes.checkoutScreen);
   }
 }

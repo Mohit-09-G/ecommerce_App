@@ -17,7 +17,9 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: AppColor.backGroundColor,
         elevation: 0,
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            print("click");
+          },
           tooltip: 'Open menu',
           icon: Image.asset("assets/images/sidebar.png"),
         ),
@@ -43,7 +45,9 @@ class HomeScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              controller.navigateToProfile();
+            },
             icon: Image.asset("assets/images/profile.png"),
           )
         ],

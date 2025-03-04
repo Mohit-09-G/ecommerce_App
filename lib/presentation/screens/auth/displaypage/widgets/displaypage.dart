@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:third_app/config/app_color.dart';
 import 'package:third_app/presentation/controller/auth/home/home_screen_controller.dart';
 import 'package:third_app/presentation/screens/auth/displaypage/display_screen.dart';
 
@@ -12,6 +13,42 @@ class Displaypage extends StatelessWidget {
   HomeScreenController homeScreenController = Get.find();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: Colors.black, body: DisplayScreen());
+    return Scaffold(
+        backgroundColor: AppColor.backGroundColor,
+        appBar: AppBar(
+          leading:
+              IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back_ios)),
+          actions: [
+            Stack(
+              alignment: Alignment(0.5, -1.0),
+              children: [
+                Expanded(
+                  child: IconButton(
+                      padding: EdgeInsets.all(0),
+                      onPressed: () {},
+                      icon: Icon(Icons.shopping_cart_outlined)),
+                ),
+                Container(
+                  height: 14,
+                  width: 14,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle, color: Colors.deepOrangeAccent),
+                  child: Obx(
+                    () => Text(
+                      textAlign: TextAlign.center,
+                      homeScreenController.characterListOfCart.length
+                          .toString(),
+                      style: TextStyle(
+                          fontSize: 8,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ],
+        ),
+        body: DisplayScreen());
   }
 }

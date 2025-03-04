@@ -1,13 +1,17 @@
 import 'package:get/route_manager.dart';
+import 'package:third_app/binding/auth/checkout_screeen_binding.dart';
 
 import 'package:third_app/binding/auth/forgetpassword_binding.dart';
 import 'package:third_app/binding/auth/home_screen_binding.dart';
 import 'package:third_app/binding/auth/onboard_binding.dart';
+import 'package:third_app/binding/auth/profilescreen_binding.dart';
 import 'package:third_app/binding/auth/sign_in_binding.dart';
 import 'package:third_app/binding/auth/sign_up_binding.dart';
 import 'package:third_app/binding/auth/splash_binding.dart';
 import 'package:third_app/config/app_route.dart';
-import 'package:third_app/presentation/screens/auth/displaypage/display_screen.dart';
+import 'package:third_app/presentation/screens/auth/appbar_screen/profile_screen.dart';
+import 'package:third_app/presentation/screens/auth/checkout/checkout_screen.dart';
+
 import 'package:third_app/presentation/screens/auth/displaypage/widgets/displaypage.dart';
 
 import 'package:third_app/presentation/screens/auth/forgetpass/forgetpassword_screen.dart';
@@ -48,6 +52,14 @@ class AppPages {
     GetPage(
       name: AppRoutes.displayScreen,
       page: () => Displaypage(),
-    )
+    ),
+    GetPage(
+        name: AppRoutes.profileScreen,
+        page: () => ProfileScreen(),
+        binding: ProfilescreenBinding()),
+    GetPage(
+        name: AppRoutes.checkoutScreen,
+        page: () => CheckoutScreen(),
+        binding: CheckoutScreeenBinding())
   ];
 }
