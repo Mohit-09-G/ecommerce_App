@@ -4,11 +4,13 @@ import 'package:get/get.dart';
 import 'package:third_app/config/app_route.dart';
 
 import 'package:third_app/data/model/charachter_model.dart';
+import 'package:third_app/data/model/checkout_model.dart';
 import 'package:third_app/data/model/single_charachter_model.dart';
+import 'package:third_app/data/model/single_episode_model.dart';
 
 class HomeScreenController extends GetxController {
   RxList<Result> characterList = <Result>[].obs;
-
+  RxList<CheckoutModel> checkoutList = <CheckoutModel>[].obs;
   Rx<SingleCharachterModel> characterById = Rx<SingleCharachterModel>(
       SingleCharachterModel(
           id: 0,
@@ -23,9 +25,23 @@ class HomeScreenController extends GetxController {
           episode: [],
           url: '',
           created: DateTime.now()));
-
+  Rx<SingleEpisodeModel> singleEpisodeByLink = Rx<SingleEpisodeModel>(
+      SingleEpisodeModel(
+          id: 0,
+          name: '',
+          url: '',
+          created: DateTime.now(),
+          airDate: '',
+          episode: '',
+          characters: []));
   RxList<SingleCharachterModel> characterListOfCart =
       <SingleCharachterModel>[].obs;
+
+  Map<int, String> allEpisodeMapByChrachterID = {};
+
+  RxList<Map<int, List<SingleCharachterModel>>> listOffallItems =
+      RxList<Map<int, List<SingleCharachterModel>>>();
+
   Map<int, List<SingleCharachterModel>> mapByID = {};
   RxBool isLoading = true.obs;
   RxBool isDetailLoading = true.obs;
@@ -33,6 +49,7 @@ class HomeScreenController extends GetxController {
 
   final Dio _dio = Dio();
 
+  //home page fetch all charachters
   Future<void> fetchCharacters() async {
     try {
       isLoading.value = true;
@@ -57,6 +74,7 @@ class HomeScreenController extends GetxController {
     }
   }
 
+  // this is for  fectch the  charachter id  from homepage to pass to siplay page
   Future<void> fetchCharacterbyId(int id) async {
     try {
       isDetailLoading.value = true;
@@ -75,49 +93,104 @@ class HomeScreenController extends GetxController {
     } finally {
       isDetailLoading.value = false;
     }
+
+    // for (var url in characterById.value.episode) {
+    //   var id = int.parse(url.split('/').last);
+    //   allEpisodeMapByChrachterID[id] = url;
+    // }
+    // allEpisodeMapByChrachterID.forEach((id, url) {
+    //   print('Episode ID: $id, URL: $url');
+    // });
   }
 
-  // void addtoCart(Rx<SingleCharachterModel> characterById) {
-  //   characterListOfCart.add(characterById.value);
-  //   print(characterListOfCart.value[0].id);
-
-  //   for (int i = 0; i < characterListOfCart.value.length; i++) {
-  //     SingleCharachterModel character = characterListOfCart.value[i];
-  //     mapByID[character.id] = character;
-  //     print(mapByID);
-  //   }
-  // }
-
-  void addtoCart(Rx<SingleCharachterModel> characterById) {
-    SingleCharachterModel character = characterById.value;
-
-    if (mapByID.containsKey(character.id)) {
-      mapByID[character.id]!.add(character);
-    } else {
-      mapByID[character.id] = [character];
+  Future<void> fetchEpisodeId(String id) async {
+    try {
+      // isDetailLoading.value = true;
+      final singleResponse = await _dio.get(id);
+      if (singleResponse.statusCode == 200) {
+        SingleEpisodeModel singleEpisodeModeldata =
+            SingleEpisodeModel.fromJson(singleResponse.data);
+        singleEpisodeByLink.value = singleEpisodeModeldata;
+      }
+    } catch (e) {
+      error.value = 'Error fetching characters: $e';
+      if (kDebugMode) {
+        print('Error fetching characters: $e');
+      }
+      throw Exception('Failed to fetch characters');
+    } finally {
+      isDetailLoading.value = false;
     }
-
-    characterListOfCart.add(character);
-
-    print(mapByID);
-
-    mapByID.forEach((key, value) {
-      print("Length of the list for key '$key': ${value.length}");
-    });
   }
 
-  void removetoCart(Rx<SingleCharachterModel> characterById) {
-    SingleCharachterModel charachter = characterById.value;
-    if (mapByID.containsKey(charachter.id)) {
-      mapByID[charachter.id]!.remove(charachter);
+  void addToList() {
+    // if (characterById.value == null) {
+    //   print("Error: Character not found.");
+    //   return;
+    // }
+    SingleCharachterModel charchter = characterById.value;
+    if (listOffallItems.isEmpty) {
+      print("Error: listOffallItems is empty.");
     }
+    bool keyFound = false;
+    for (Map<int, List<SingleCharachterModel>> map in listOffallItems) {
+      map.forEach((key, value) {
+        if (key == charchter.id) {
+          value.add(charchter);
+          keyFound = true;
+        }
+      });
+    }
+    if (!keyFound) {
+      listOffallItems.add({
+        charchter.id: [charchter],
+      });
+    }
+    checkoutList.value = CheckoutModel.demo(listOffallItems);
+  }
 
-    characterListOfCart.remove(charachter);
-    print(mapByID);
+  void removefromList() {
+    if (characterById.value == null) {
+      print("Error: Character not found.");
+      return;
+    }
+    SingleCharachterModel charchter = characterById.value;
+    if (listOffallItems.isEmpty) {
+      print("Error: listOffallItems is empty.");
+    }
+    bool keyFound = false;
+    List<int> keysToRemove = [];
+    for (Map<int, List<SingleCharachterModel>> map in listOffallItems) {
+      map.forEach((key, value) {
+        if (key == charchter.id) {
+          value.remove(charchter);
+          keyFound = true;
+          if (value.isEmpty) {
+            keysToRemove.add(key);
+          }
+        }
+      });
+    }
+    if (!keyFound) {
+      listOffallItems.remove({
+        charchter.id: [charchter],
+      });
+    }
+    for (int key in keysToRemove) {
+      for (Map<int, List<SingleCharachterModel>> map in listOffallItems) {
+        map.remove(key);
+      }
+    }
+    checkoutList.value = CheckoutModel.demo(listOffallItems);
+  }
 
-    mapByID.forEach((key, value) {
-      print("Length of the list for key '$key': ${value.length}");
-    });
+  RxList<SingleCharachterModel> getCharacterGroupById(int id) {
+    var checkoutModel = checkoutList.firstWhere(
+      (checkout) => checkout.id == id,
+      orElse: () => CheckoutModel(id: 0, characterGroups: []),
+    );
+
+    return checkoutModel.characterGroups.obs;
   }
 
   @override
@@ -132,5 +205,13 @@ class HomeScreenController extends GetxController {
 
   void navigateToCheckout() {
     Get.toNamed(AppRoutes.checkoutScreen);
+  }
+
+  void navigateTOAllEpisode() {
+    Get.toNamed(AppRoutes.allEpisodesScreen);
+  }
+
+  void navigateTOWatchNow() {
+    Get.toNamed(AppRoutes.watchNowScreen);
   }
 }

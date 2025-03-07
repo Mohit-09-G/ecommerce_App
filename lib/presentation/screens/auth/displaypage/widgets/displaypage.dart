@@ -16,18 +16,19 @@ class Displaypage extends StatelessWidget {
     return Scaffold(
         backgroundColor: AppColor.backGroundColor,
         appBar: AppBar(
-          leading:
-              IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back_ios)),
+          leading: IconButton(
+              onPressed: () {
+                Get.back();
+              },
+              icon: Icon(Icons.arrow_back_ios)),
           actions: [
             Stack(
               alignment: Alignment(0.5, -1.0),
               children: [
-                Expanded(
-                  child: IconButton(
-                      padding: EdgeInsets.all(0),
-                      onPressed: () {},
-                      icon: Icon(Icons.shopping_cart_outlined)),
-                ),
+                IconButton(
+                    padding: EdgeInsets.all(0),
+                    onPressed: () {},
+                    icon: Icon(Icons.shopping_cart_outlined)),
                 Container(
                   height: 14,
                   width: 14,
@@ -36,8 +37,7 @@ class Displaypage extends StatelessWidget {
                   child: Obx(
                     () => Text(
                       textAlign: TextAlign.center,
-                      homeScreenController.characterListOfCart.length
-                          .toString(),
+                      homeScreenController.checkoutList.length.toString(),
                       style: TextStyle(
                           fontSize: 8,
                           fontWeight: FontWeight.bold,

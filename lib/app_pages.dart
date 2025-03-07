@@ -21,6 +21,8 @@ import 'package:third_app/presentation/screens/auth/sighin/sighn_in_screen.dart'
 import 'package:third_app/presentation/screens/auth/sighnup/sign_up_screen.dart';
 import 'package:third_app/presentation/screens/auth/splash/new.dart';
 import 'package:third_app/presentation/screens/auth/splash/splash.dart';
+import 'package:third_app/presentation/screens/auth/view%20all%20episodes/all_episode_screen.dart';
+import 'package:third_app/presentation/screens/auth/watchnow/watch_now_screen.dart';
 
 class AppPages {
   static final routes = [
@@ -60,6 +62,8 @@ class AppPages {
     GetPage(
         name: AppRoutes.checkoutScreen,
         page: () => CheckoutScreen(),
-        binding: CheckoutScreeenBinding())
+        binding: CheckoutScreeenBinding()),
+    GetPage(name: AppRoutes.allEpisodesScreen, page: () => AllEpisodeScreen()),
+    GetPage(name: AppRoutes.watchNowScreen, page: () => WatchNowScreen())
   ];
 }

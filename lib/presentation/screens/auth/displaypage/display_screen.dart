@@ -10,6 +10,7 @@ import 'package:third_app/presentation/screens/auth/commonwidget/squarebutton.da
 class DisplayScreen extends StatelessWidget {
   DisplayScreen({super.key});
   HomeScreenController homeScreenController = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return Obx(
@@ -116,28 +117,28 @@ class DisplayScreen extends StatelessWidget {
                                 padding: const EdgeInsets.only(
                                     left: 5, right: 5, top: 5),
                                 child: homeScreenController
-                                        .characterListOfCart.isEmpty
+                                        .getCharacterGroupById(
+                                            homeScreenController
+                                                .characterById.value.id)
+                                        .isEmpty
                                     ? Squarebutton(
                                         height: 50,
                                         buttontext: "Add to cart",
                                         ontap: () {
-                                          homeScreenController.addtoCart(
-                                              homeScreenController
-                                                  .characterById);
+                                          homeScreenController.addToList();
                                         })
                                     : CartButton(
                                         onDecrement: () {
-                                          homeScreenController.removetoCart(
-                                              homeScreenController
-                                                  .characterById);
+                                          homeScreenController.removefromList();
                                         },
                                         initialQuantity: homeScreenController
-                                            .characterListOfCart.length
+                                            .getCharacterGroupById(
+                                                homeScreenController
+                                                    .characterById.value.id)
+                                            .length
                                             .toString(),
                                         onIncrement: () {
-                                          homeScreenController.addtoCart(
-                                              homeScreenController
-                                                  .characterById);
+                                          homeScreenController.addToList();
                                         },
                                       )),
                           ),
@@ -154,6 +155,22 @@ class DisplayScreen extends StatelessWidget {
                                   buttontext: "checkout",
                                   ontap: () {
                                     homeScreenController.navigateToCheckout();
+                                  }),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Squarebutton(
+                                  height: 50,
+                                  buttontext: "View All Episodes",
+                                  ontap: () {
+                                    homeScreenController.navigateTOAllEpisode();
                                   }),
                             ),
                           ),

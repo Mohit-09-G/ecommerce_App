@@ -9,4 +9,6 @@ class AppRoutes {
   static const String displayScreen = '/display_screen';
   static const String profileScreen = '/profile_screen';
   static const String checkoutScreen = '/checkout_screen';
+  static const String allEpisodesScreen = '/all_episode_screen';
+  static const String watchNowScreen = '/watch_now_screen';
 }

@@ -1,32 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:third_app/config/app_color.dart';
+import 'package:third_app/data/model/charachter_model.dart';
+
 import 'package:third_app/presentation/controller/auth/home/home_screen_controller.dart';
 
 class ItemsCard extends StatelessWidget {
-  const ItemsCard({super.key});
+  final int index;
+  const ItemsCard({super.key, required this.index});
 
   @override
   Widget build(BuildContext context) {
     HomeScreenController controller = Get.find();
+
     return Padding(
-      padding: EdgeInsets.all(15.0),
+      padding: EdgeInsets.all(3.0),
       child: Container(
         decoration: BoxDecoration(boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.25),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 14,
             spreadRadius: -8,
             offset: Offset(0, 6),
           ),
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.25),
-            blurRadius: 9,
+            color: Colors.black.withValues(alpha: 0.1),
+            blurRadius: 14,
             spreadRadius: -7,
             offset: Offset(0, -4),
           ),
         ]),
         child: Card(
+          elevation: 2,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
           color: Colors.white,
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -43,7 +49,8 @@ class ItemsCard extends StatelessWidget {
                                 clipBehavior: Clip.antiAlias,
                                 borderRadius: BorderRadius.circular(6),
                                 child: Image.network(
-                                  controller.characterById.value.image,
+                                  controller.checkoutList[index]
+                                      .characterGroups[0].image,
                                   fit: BoxFit.fill,
                                   width: 133,
                                   height: 126,
@@ -61,7 +68,8 @@ class ItemsCard extends StatelessWidget {
                                 children: [
                                   Expanded(
                                     child: Text(
-                                      controller.characterById.value.name,
+                                      controller.checkoutList[index]
+                                          .characterGroups.first.name,
                                       style: TextStyle(
                                           color: AppColor.appblackColor,
                                           fontSize: 16,
@@ -71,7 +79,7 @@ class ItemsCard extends StatelessWidget {
                                 ],
                               ),
                               SizedBox(
-                                height: 5,
+                                height: 8,
                               ),
                               Row(
                                 children: [
@@ -104,18 +112,40 @@ class ItemsCard extends StatelessWidget {
                                                     width: 0.3)),
                                             child: Padding(
                                               padding: EdgeInsets.symmetric(
-                                                vertical: 5,
+                                                  horizontal: 5),
+                                              child: FittedBox(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        controller
+                                                            .checkoutList[index]
+                                                            .characterGroups
+                                                            .first
+                                                            .status
+                                                            .name
+                                                            .capitalize
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                          fontSize: 10,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color: controller
+                                                                      .checkoutList[
+                                                                          index]
+                                                                      .characterGroups
+                                                                      .first
+                                                                      .status ==
+                                                                  Status.ALIVE
+                                                              ? Colors.green
+                                                              : Colors.red,
+                                                        )),
+                                                  ],
+                                                ),
                                               ),
-                                              child: Text(
-                                                  textAlign: TextAlign.center,
-                                                  controller.characterById.value
-                                                      .status.name.capitalize
-                                                      .toString(),
-                                                  style: TextStyle(
-                                                      fontSize: 10,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      color: Colors.black)),
                                             ),
                                           ),
                                         ),
@@ -136,8 +166,13 @@ class ItemsCard extends StatelessWidget {
                                               ),
                                               child: Text(
                                                 textAlign: TextAlign.center,
-                                                controller.characterById.value
-                                                    .gender.name.capitalize
+                                                controller
+                                                    .checkoutList[index]
+                                                    .characterGroups
+                                                    .first
+                                                    .gender
+                                                    .name
+                                                    .capitalize
                                                     .toString(),
                                                 style: TextStyle(
                                                     fontSize: 10,
@@ -199,8 +234,8 @@ class ItemsCard extends StatelessWidget {
                                   Expanded(
                                     flex: 1,
                                     child: Container(
-                                      margin:
-                                          EdgeInsets.only(left: 0, right: 8),
+                                      margin: EdgeInsets.only(
+                                          left: 0, right: 8, bottom: 15),
                                       decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(4),
@@ -214,7 +249,7 @@ class ItemsCard extends StatelessWidget {
                                             vertical: 6,
                                           ),
                                           child: Text(
-                                            "\$ ${controller.characterById.value.episode.length.toString()}.00",
+                                            "\$ ${controller.checkoutList[index].characterGroups.first.episode.length.toString()}.00",
                                             style: TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w600,
@@ -275,7 +310,7 @@ class ItemsCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Total Order (${controller.characterById.value.episode.length.toString()})   : ",
+                          "Total Order (${controller.checkoutList[index].characterGroups.length.toString()})   : ",
                           style: TextStyle(
                               color: AppColor.appblackColor,
                               fontSize: 12,
@@ -283,7 +318,7 @@ class ItemsCard extends StatelessWidget {
                               height: 22 / 12),
                         ),
                         Text(
-                          "\$ ${controller.characterById.value.episode.length.toString()}.00",
+                          "\$ ${controller.checkoutList[index].characterGroups.length.toString()}.00",
                           style: TextStyle(
                               color: AppColor.appblackColor,
                               fontSize: 12,
